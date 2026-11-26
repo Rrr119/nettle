@@ -6681,6 +6681,25 @@ These functions are declared in @file{<nettle/memops.h>}. For
 compatibility with earlier versions of Nettle, @code{memxor} and
 @code{memxor3} are also declared in @file{<nettle/memxor.h>}.
 
+The following bignum operations are also available with data-independent
+control flow, in @file{<nettle/bignum.h>}.
+
+@deftypefun void nettle_mpz_powm_sec (mpz_t @var{r}, const mpz_t @var{b}, const mpz_t @var{e}, const mpz_t @var{m})
+Computes @code{@var{b}^@var{e} mod @var{m}} with the same calling
+convention as @code{mpz_powm_sec}. The modulus must be odd, and the
+exponent must be non-negative. With GMP this uses GMP's constant-time
+@code{mpz_powm_sec}; with mini-gmp it uses a fixed-work Montgomery
+implementation. The number of exponent limbs is part of the operation's
+cost, but the exponent bit pattern does not affect the control flow.
+@end deftypefun
+
+@deftypefun int nettle_mpz_cmp_sec (const mpz_t @var{a}, const mpz_t @var{b})
+Compares @var{a} and @var{b}, returning a negative value, zero, or a
+positive value like @code{mpz_cmp}. It compares all limbs up to the
+larger operand size and does not stop at the first difference.
+@code{mpz_cmp_sec} is provided as a compatible spelling.
+@end deftypefun
+
 @node Nettle soup
 @chapter Traditional Nettle Soup
 For the serious nettle hacker, here is a recipe for nettle soup. 4 servings.

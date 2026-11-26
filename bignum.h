@@ -44,8 +44,8 @@
 
 # define GMP_NUMB_MASK (~(mp_limb_t) 0)
 
-/* Side-channel silent powm not available in mini-gmp. */
-# define mpz_powm_sec mpz_powm
+/* Use Nettle's constant-time implementation with mini-gmp. */
+# define mpz_powm_sec nettle_mpz_powm_sec
 #else
 # include <gmp.h>
 #endif
@@ -53,6 +53,22 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Constant-time modular exponentiation, with the same calling
+   convention as mpz_powm_sec. The modulus must be odd (the same
+   restriction as GMP's mpz_powm_sec). */
+void
+nettle_mpz_powm_sec(mpz_t r, const mpz_t b, const mpz_t e, const mpz_t m);
+
+/* Three-way comparison, returning a negative value, zero, or a
+   positive value like mpz_cmp. The running time is independent of the
+   values and of the position of the first differing limb. The number
+   of limbs compared is the larger of the two operand sizes. */
+int
+nettle_mpz_cmp_sec(const mpz_t a, const mpz_t b);
+
+/* Source-compatible spelling for the constant-time comparison. */
+#define mpz_cmp_sec nettle_mpz_cmp_sec
 
 /* Size needed for signed encoding, including extra sign byte if
  * necessary. */

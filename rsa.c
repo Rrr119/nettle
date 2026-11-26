@@ -66,7 +66,8 @@ _rsa_check_size(mpz_t n)
   /* Round upwards */
   size_t size;
 
-  /* Even moduli are invalid, and not supported by mpz_powm_sec. */
+  /* Even moduli are invalid, and not supported by
+     nettle_mpz_powm_sec. */
   if (mpz_even_p (n))
     return 0;
 

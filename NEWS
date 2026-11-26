@@ -36,6 +36,17 @@ NEWS for the Nettle 4.1 release
 
 	New features:
 
+	* New constant-time bignum operations
+	  nettle_mpz_powm_sec and nettle_mpz_cmp_sec. The latter is
+	  also available as mpz_cmp_sec. With mini-gmp, modular
+	  exponentiation now uses a fixed-work Montgomery
+	  implementation instead of falling back to mpz_powm.
+
+	* New bignum-sec-timing-test, checking modular exponentiation
+	  and comparison across three input distributions with a
+	  statistical timing test, and checking the compatibility
+	  path's performance against GMP's mpz_powm_sec.
+
 	* Support for the Streamlined NTRU Prime key encapsulation
 	  mechanism, sntrup761. Contributed by Simon Josefsson, based
 	  on public domain sources, then further optimized. See the
